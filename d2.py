@@ -33,21 +33,22 @@ def get_hor_ver_aim(cmds_log):
         if cmd_txt[0] == "forward":
             horizontal = horizontal + int(cmd_txt[1])
             vertical = vertical + int(cmd_txt[1])*aim
-            print("forward", horizontal, vertical, aim)
         elif cmd_txt[0] == "down":
-            # vertical = vertical + int(cmd_txt[1])
             aim = aim + int(cmd_txt[1])
-            print("down", horizontal, vertical, aim)
         elif cmd_txt[0] == "up":
-            # vertical = vertical - int(cmd_txt[1])
             aim = aim - int(cmd_txt[1])
-            print("up", horizontal, vertical, aim)
         else:
             raise "Unkown name"
     return (horizontal, vertical)
 
-hor, ver = get_hor_ver(commands)
-print(hor*ver)
-hor, ver = get_hor_ver_aim(commands)
-print(hor*ver)
+def main():
+    #part one
+    hor, ver = get_hor_ver(commands)
+    print("part one", hor*ver)
 
+    # part two
+    hor, ver = get_hor_ver_aim(commands)
+    print("part two", hor*ver)
+
+if __name__ == "__main__":
+    main()
