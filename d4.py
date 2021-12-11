@@ -29,7 +29,7 @@ def prt_matrix(matrix):
 def rmv_num(matrix, num):
     for row in matrix:
         del_and_X(row, num)
-    prt_matrix(matrix)
+    # prt_matrix(matrix)
     return matrix
 
 def transpose(x):
@@ -72,7 +72,7 @@ def bingo_combo(matrix_orig, matrix_bingo, result, last_num):
     if bingo:
         if row_col == "row":
             print(matrix_orig[win_row])
-            prt_matrix(matrix_bingo)
+            # prt_matrix(matrix_bingo)
             sum_num =sum_unused(matrix_bingo)
             print(sum_num,"*",last_num,"=",sum_num*last_num)
             return True
@@ -93,13 +93,19 @@ bingo_numbers = list(map(int, lines[0].strip().split(",")))
 
 all =  get_matrix(lines[2:])
 orig = get_matrix(lines[2:])
+max_num_matrix = print(len(all))
 
+won_cards = []
 for num in bingo_numbers: 
     for mtx_n, matrix0 in enumerate(all):
-        print("mtx:", mtx_n)
-        matrix0 = rmv_num(matrix0, num)
-        rtn1 = bingo_combo(orig[mtx_n], all[mtx_n], check_rows(matrix0),num)
-        rtn2 = bingo_combo(orig[mtx_n], all[mtx_n], check_colums(matrix0),num)
-        if rtn1 or rtn2:
-            exit()
+        if not mtx_n in won_cards:
+            matrix0 = rmv_num(matrix0, num)
+            rtn1 = bingo_combo(orig[mtx_n], all[mtx_n], check_rows(matrix0),num)
+            rtn2 = bingo_combo(orig[mtx_n], all[mtx_n], check_colums(matrix0),num)
+            if rtn1 or rtn2:
+                won_cards.append(mtx_n) 
+                print("won:", won_cards)
+                print("-"*20)
+                if len(won_cards) == max_num_matrix:
+                    exit()
 
