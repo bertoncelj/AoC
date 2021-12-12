@@ -1,3 +1,9 @@
+import math as m
+
+def angle_between(p1, p2):
+    x1, y1 = p1
+    x2, y2 = p2
+    return abs(m.degrees(m.atan2(y2-y1,x2-x1)))
 
 def get_data(file_path):
     file = open(file_path, "r")
@@ -23,6 +29,24 @@ def check_linear(pair_points):
         return True
     else:
         return False 
+
+def check_horizontal(pair_points):
+    point1, point2 = pair_points
+    angle = angle_between(point1, point2)
+    # print(" p1:", point1 ,"p2:", point2)
+    # print(angle)
+
+    if angle/45.0 == 1 or angle/135.0 == 1:
+
+        print(" p1:", point1 ,"p2:", point2)
+        print(angle)
+
+
+    # if x1 == x2 or y1 == y2:
+    #     # print("linear: p1:", (x1,y1) ,"p2:", (x2,y2))
+    #     return True
+    # else:
+    #     return False 
 
 def point_to_str(x,y):
     return str(x)+","+str(y)
@@ -77,6 +101,8 @@ coordinate= {}
 for p in data_vents:
     if check_linear(p):
         add_points(coordinate, p)
+    if check_horizontal(p):
+        pass
 
 # max_num = find_max_num_diagram(coordinate)
 # print(max_num)
