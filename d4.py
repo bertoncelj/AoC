@@ -1,4 +1,3 @@
-import numpy as np
 
 def get_matrix(file_lines):
     orignal_matrix = []
@@ -104,7 +103,6 @@ for num in bingo_numbers:
             rtn2 = bingo_combo(orig[mtx_n], all[mtx_n], check_colums(matrix0),num)
             if rtn1 or rtn2:
                 won_cards.append(mtx_n) 
-                print("won:", won_cards)
                 print("-"*20)
                 if len(won_cards) == max_num_matrix:
                     exit()
