@@ -30,23 +30,26 @@ def check_linear(pair_points):
     else:
         return False 
 
-def check_horizontal(pair_points):
+def check_horizontal(dic_co, pair_points ):
     point1, point2 = pair_points
     angle = angle_between(point1, point2)
     # print(" p1:", point1 ,"p2:", point2)
     # print(angle)
 
     if angle/45.0 == 1 or angle/135.0 == 1:
+        
+        x1,y1,x2,y2 = get_points(pair_points)
+        # print(" p1:", point1 ,"p2:", point2)
+        a = list(range(*StBm(x1,x2)))
+        # print("a:",a)
+        b = list(range(*StBm(y1,y2)))
+        # print("b:",b)
+        v = list(zip(a,b))
+        # print(v)
+        add_points_list_in_diagram(v, dic_co)
 
-        print(" p1:", point1 ,"p2:", point2)
-        print(angle)
 
 
-    # if x1 == x2 or y1 == y2:
-    #     # print("linear: p1:", (x1,y1) ,"p2:", (x2,y2))
-    #     return True
-    # else:
-    #     return False 
 
 def point_to_str(x,y):
     return str(x)+","+str(y)
@@ -64,6 +67,9 @@ def add_points_list_in_diagram(points, dic_co):
 
 def StB(a,b):
     return (a,b+1) if a <= b else (b,a+1)
+
+def StBm(a,b):
+    return (a,b+1,1) if a <= b else (a,b-1,-1)
 
 def add_points(dic_co, linear_points):
 
@@ -101,7 +107,7 @@ coordinate= {}
 for p in data_vents:
     if check_linear(p):
         add_points(coordinate, p)
-    if check_horizontal(p):
+    if check_horizontal(coordinate, p):
         pass
 
 # max_num = find_max_num_diagram(coordinate)
