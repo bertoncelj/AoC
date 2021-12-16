@@ -54,6 +54,10 @@ def get_neighbours(x,y):
         print("in:", x,y, "->",t,r,b,l)
 
 matrix = fill_matrix("poligon.txt")
+max_y = len(matrix)
+max_x = len(matrix[0])
+
+print("matrix", max_x, ",",max_y)
 for m in matrix:
     print(m)
 
