@@ -195,4 +195,3 @@ for next_cipher in range(len(decript_cipher)):
 # print(sum_ciphers)
 print(sum(sum_ciphers))
 
-
