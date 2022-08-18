@@ -51,8 +51,8 @@ fn main() {
         .map(|s| s.parse().expect("parse error"))
         .collect();
 
-
-    println!("Task 1 answ: {}", task1(&numbers));
-    println!("Task 2 answ: {}", task2(&numbers));
+    
+    // println!("Task 1 answ: {}", task1(&numbers));
+    // println!("Task 2 answ: {}", task2(&numbers));
 
 }
