@@ -2,16 +2,6 @@ use std::fs;
 use std::error::Error;
 
 
-
-pub fn run(config: Config) -> Result<&str, Box<dyn Error>> {
-
-    let content = fs::read_to_string(config.file_name)?;
- 
-    println!("file content: {}", content);
-
-    Ok(content)
-}
-
 pub struct Config  {
     pub  program_name: String,
     pub  file_name: String,
@@ -56,9 +46,4 @@ mod tests {
             Pick tree";
         assert_eq!(vec!["safe, fast, productive"], search(query, contents));
     }
-
-
-
 }
-
-
