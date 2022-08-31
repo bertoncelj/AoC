@@ -1,6 +1,3 @@
-use std::fs;
-use std::error::Error;
-
 
 pub struct Config  {
     pub  program_name: String,

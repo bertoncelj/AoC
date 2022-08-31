@@ -1,7 +1,6 @@
 use std::env;
 use std::process;
 use std::fs;
-
 use day_1::Config;
 
 fn main() {
@@ -28,6 +27,19 @@ fn main() {
         .filter(|(x,y)| x < y)
         .fold(0, |acc, (_x,_y)| acc + 1);
 
-    println!("{:?}", z);
+    println!("Task a: {:?}", z);
+
+    let x:Vec<u32> = depth_vec.iter()
+            .zip(depth_vec.iter().skip(1))
+            .zip(depth_vec.iter().skip(2))
+            .map(|((x,y),z)| (x + y + z))
+            .collect();
+    
+    let z = x.iter().zip(x.iter().skip(1))
+        .filter(|(x,y)| x < y)
+        .fold(0, |acc, (_x,_y)| acc + 1);
+
+    println!("Result of task b: {:?}", z);
 }
+
 
