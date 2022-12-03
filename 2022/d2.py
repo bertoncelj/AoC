@@ -84,6 +84,3 @@ print("day2_part_1: ", sum(map(lambda x: get_game_resoult(*x), game_input)))
 
 my_moves = set_your_play(game_input)
 print("day2_part_2: ", sum(map(lambda x: get_game_resoult(*x), my_moves)))
-
-    
-
