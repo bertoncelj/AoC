@@ -81,4 +81,3 @@ program_sequence = get_inputs_sequence("file5.txt")
 run_sequence(program_sequence,90001)
 print("task2:")
 read_top_stacks()
-
