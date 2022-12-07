@@ -1,91 +1,92 @@
+free = 30000000
+max_disk_space = 70000000
+
 class DirTree:
-    def __init__(self,name=None):
+    def __init__(self):
         self.parent = None 
         self.subdirs = []
-        self.name = name 
-        self.files = []
-        self.sum_total = 1
-
-    def create_dir(self,name):
-        self.subdirs.append(DirTree(name))
-
-def goto_root(self):
-    if self.parent != None:
-        return goto_root(self.parent)
-
-
-def print_dir(self, deep=0):
-    print(" "*deep, self.name)
-    deep += 1
-    for a in self.subdirs:
-        print_dir(a,deep) 
-    return
+        self.files_size = 0
+        self.dir_size = 0
 
 def get_filesystem(file_name):
     with open(file_name) as f:
         command_lines = list(map(str.rstrip,f))
     return command_lines
 
-def parse_dir_commands(file_system):
-    filter_cd = filter(lambda command: 0 <= command.rfind("$ cd"),file_system)
-    return list(filter_cd)
+def parse_commands_history(file_system):
+    get_num = lambda x: x[0] if len(x) == 2 else x[-1]
 
-# root = DirTree("root")
-# root.subdirs.append(DirTree("a"))
-# root.subdirs.append(DirTree("b"))
-# root.subdirs.append(DirTree("c"))
-# root.subdirs[0].subdirs.append(DirTree("e"))
-# root.subdirs[0].subdirs.append(DirTree("d"))
-# root.subdirs[0].subdirs.append(DirTree("g"))
-# root.subdirs[1].subdirs.append(DirTree("g"))
-# root.subdirs[1].subdirs.append(DirTree("g"))
-# ["cd root"]
-# print_dir(root)
+    filter_command = lambda command: 0 <= command.rfind("$ cd") or command[0].isdigit()
+    return [ get_num(x.split(" ")) for x in filter(filter_command,file_system)]
 
-def print_node(self):
-    print("parent: ", self.parent)
-    print("subdirs: ", self.subdirs)
-    print("name: ", self.name)
-
-def crate_directory_tree(x,pp):
-    for p in pp:
-        print_node(x)
-        print("")
-        if p != "..":
-            x.subdirs.append(DirTree(p))
-            x.subdirs[-1].parent = x
-            x = x.subdirs[-1]
+def move_to_root(dir_p):
+    while(dir_p.parent != None):
+        dir_p = dir_p.parent
+    return dir_p
+    
+def crate_directory_tree(dir_p,command_history):
+    for command in command_history:
+        if command.isdigit():
+            dir_p.files_size += int(command)
+        elif command != "..":
+            dir_p.subdirs.append(DirTree())
+            dir_p.subdirs[-1].parent = dir_p
+            dir_p = dir_p.subdirs[-1]
         else:
-            x = x.parent
-    return move_to_root(x)
+            dir_p = dir_p.parent
 
-def move_to_root(x):
-    while(x.parent != None):
-        x = x.parent
-    return x
+    return move_to_root(dir_p)
 
-def count_all_file_sizes(x,acc=0):
-    for subdir in x.subdirs:
-        acc += count_all_file_sizes(subdir,acc)
-    acc += x.sum_total
-    print("return")  
-    print_node(x)
-    print("acc", acc)
-    print("")
-    return acc  
+def get_used_disk_size(dir_p):
+    if dir_p.subdirs == []:
+        dir_p.dir_size = dir_p.files_size
+        return dir_p.files_size
 
-file_system = (get_filesystem("file7.txt"))
-pp = parse_dir_commands(file_system)
-pp = [x.split(" ")[-1] for x in pp]
-print(pp)
+    for subdir in dir_p.subdirs:
+        dir_p.dir_size += get_used_disk_size(subdir) 
 
-x = DirTree(pp[0])
-root = x
-x = crate_directory_tree(x,pp[1:])
-print(count_all_file_sizes(x,0))
+    dir_p.dir_size += dir_p.files_size
+    return dir_p.dir_size
 
+def sum_dirs_100000(dir_p,acc=0):
 
+    for subdir in dir_p.subdirs:
+        acc += sum_dirs_100000(subdir) 
 
+    if dir_p.dir_size <= 100000:
+        acc += dir_p.dir_size
 
+    return acc 
 
+def get_list_totals_directories(dir_p,ll=[]):
 
+    for subdir in dir_p.subdirs:
+        get_list_totals_directories(subdir,ll)
+
+    ll.append(dir_p.dir_size)
+    return ll
+
+def delete_samllest(dir_p, used ):
+    need_to_free = free - (max_disk_space - used)
+
+    list_totals = get_list_totals_directories(dir_p)
+    list_totals.sort()
+    for candidate in list_totals:
+        if candidate > need_to_free:
+            return candidate
+def main():
+
+    file_system = get_filesystem("file7.txt")
+    command_history = parse_commands_history(file_system)
+
+    # create directory tree
+    root_dir = DirTree()
+    root_dir = crate_directory_tree(root_dir,command_history[1:])
+    used_disk =  get_used_disk_size(root_dir)
+
+    print("used disk", used_disk)
+    print("sum_10000:", sum_dirs_100000(root_dir))
+    print(delete_samllest(root_dir, used_disk))
+
+if __name__ == "__main__":
+    main()
