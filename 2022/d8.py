@@ -31,6 +31,10 @@ def visiable_tree(row,col):
             return 1
     return 0
 
+def count_visiable_trees(n=4, ll=[2,3,4,-1]):
+    for l in ll:
+        print(l)
+
 def main():
     get_forest_trees("file8.txt")
     visiable_trees = [ visiable_tree(row,col) for row in range(len(forest)) for col in range(len(forest[0]))]
