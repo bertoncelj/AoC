@@ -1,10 +1,4 @@
-
-# forest = [[3,0,3,7,3],
-#           [2,5,5,1,2],
-#           [6,5,3,3,2],
-#           [3,3,5,4,9],
-#           [3,5,3,9,0],
-#          ]
+from functools import reduce
 
 forest = []
 
@@ -22,19 +16,35 @@ def neighbors(row,col):
     bottom = lambda row,col: [check(i+1,col) for i in range(row,len(forest))]
     return (top(row,col),bottom(row,col),left(row,col),right(row,col))
 
-def any_obstractions(tree_height, neighbor_trees):
-    return 1 if max(neighbor_trees) < tree_height else 0
-
 def visiable_tree(row,col):
-    for n in neighbors(row,col):
-        if any_obstractions(forest[row][col],n):
+    for neighbor_trees in neighbors(row,col):
+        if max(neighbor_trees) < forest[row][col]:
             return 1
     return 0
 
+def range_view(row,col):
+    ll = []
+    for tree_range in neighbors(row,col):
+        count = 0
+        for tree in tree_range:
+            if tree != -1:
+                count += 1
+                if forest[row][col] <= tree:
+                    break
+            else:
+                break
+        ll.append(count)
+    return reduce((lambda x, y: x * y), ll)
+
 def main():
+
     get_forest_trees("file8.txt")
-    visiable_trees = [ visiable_tree(row,col) for row in range(len(forest)) for col in range(len(forest[0]))]
-    print("task1", sum(visiable_trees))
+    visiable_trees = [visiable_tree(row,col) for row in range(len(forest)) for col in range(len(forest[0]))]
+    print("part1:", sum(visiable_trees))
+
+    best_tree = [range_view(row,col) for row in range(len(forest)) for col in range(len(forest[0]))]
+    print("part2:", max(best_tree))
+
 
 if __name__ == "__main__":
     main()
