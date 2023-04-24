@@ -2,6 +2,7 @@ import sys
 # recursion set limit over 2000
 sys.setrecursionlimit(2300)
 
+# TODO: neki
 
 def find_end_depth(deep_log):
     return sum(list(map(lambda a,b: 1 if a < b else 0, 
