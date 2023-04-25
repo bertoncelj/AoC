@@ -43,7 +43,6 @@ def drag_tail(direction, tail, head,prev):
          tail = prev 
     return tail
 
-        
 
 commands_input = get_data("file9.txt")
 t = lambda s: (s[0], int(s[2:]))
