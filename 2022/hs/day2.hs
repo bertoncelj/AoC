@@ -103,10 +103,43 @@ rev'' ll = llrev ll []
     where llrev [] acc = acc 
           llrev (x:xs) acc = llrev xs (x:acc)
 
+takeS :: [Int] -> [Int]
+takeS [] = []
+takeS [x] = []
+takeS (x:y:xs) = y : takeS xs
 
-main :: IO ()
-main = do
-    contents <- readFile "input.txt"
-    let linesList = lines contents
-    putStrLn "Lines in file:"
-    mapM_ putStrLn linesList
+
+tN :: [a] -> [a]
+tN [] = []
+tN ll = go ll 1 
+    where go [] _ = []
+          go (x:xs) n 
+            | n == 10 = x : go xs 1
+            | otherwise = go xs (n+1)
+
+-- skipN :: [a]-> a -> [a]
+skipN [] _ = []
+skipN ll n = go ll n 0 where
+    go  xs 0 i = xs
+    go (x:xs) n i = if i `mod` n == 0 then x : go xs n (i+1)  else go xs n i 
+
+con :: [a] -> [a] -> [a]
+con [] [] = []
+con [] xs = xs
+con xs [] = xs
+con (x:xs) ll  = x : con xs ll   -- : h : con (x:xs) (t)  
+
+
+
+
+
+
+
+--
+--
+-- main :: IO ()
+-- main = do
+--     contents <- readFile "input.txt"
+--     let linesList = lines contents
+--     putStrLn "Lines in file:"
+--     mapM_ putStrLn linesList
