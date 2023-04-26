@@ -129,6 +129,14 @@ con [] xs = xs
 con xs [] = xs
 con (x:xs) ll  = x : con xs ll   -- : h : con (x:xs) (t)  
 
+conEven:: [Int] -> [Int] -> [Int]
+conEven la lb 
+    | pussy la =  la ++ lb
+    | otherwise = la
+    where pussy x 
+          pussy [] = True 
+          pussy (x:xs) = (x `mod` 2 == 0) && pussy xs
+
 
 
 
