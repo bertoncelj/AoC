@@ -64,6 +64,46 @@ readInput fn = (map parseLine . lines ) <$> readFile fn
 --   linesOfFile <- readLines "input.txt"
 --   print linesOfFile
 
+bubbleSort [] = []
+bubbleSort [x] = [x]
+bubbleSort (x:y:xs) = if x>y
+                        then y : bubbleSort (x:xs)
+                        else x : bubbleSort (y:xs)
+
+rr:: Int->Int->[Int]
+rr a b  =  if a < b
+                then [] 
+                else a : rr (a-1) b 
+
+revL :: Int -> Int -> [Int]
+revL a b 
+    | a < b = []
+    | otherwise = a : revL (a-1) b 
+
+
+
+maxInList :: [Int] -> Int
+maxInList [] = 0 
+maxInList [x] = x 
+maxInList (x:xs) = if x > maxTail then x else maxTail
+            where maxTail = maxInList xs
+
+rev [] = [] 
+rev (x:xs) =  (rev xs) ++ [x]
+
+rev' :: [a] -> [a]
+rev' xs = neki xs [] 
+    where neki [] acc = acc
+          neki (x:xs) acc = neki xs (x:acc)
+
+
+
+rev'' :: [Int] -> [Int]
+rev'' ll = llrev ll []
+    where llrev [] acc = acc 
+          llrev (x:xs) acc = llrev xs (x:acc)
+
+
 main :: IO ()
 main = do
     contents <- readFile "input.txt"
